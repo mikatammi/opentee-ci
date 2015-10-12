@@ -43,13 +43,13 @@ Vagrant.configure(2) do |config|
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
   #
-  # config.vm.provider "virtualbox" do |vb|
+  config.vm.provider "virtualbox" do |vb|
   #   # Display the VirtualBox GUI when booting the machine
   #   vb.gui = true
-  #
-  #   # Customize the amount of memory on the VM:
-  #   vb.memory = "1024"
-  # end
+  
+    # Customize the amount of memory on the VM:
+    vb.memory = "1024"
+  end
   #
   # View the documentation for the provider you are using for more
   # information on available options.
@@ -71,5 +71,10 @@ Vagrant.configure(2) do |config|
     sudo apt-cache policy docker-engine
     sudo apt-get install -y docker-engine
     sudo usermod -aG docker vagrant
+  SHELL
+
+  config.vm.provision "shell", inline: <<-SHELL
+    cd /vagrant/docker-buildbot-master
+    docker build -t opentee-buildbot-master .
   SHELL
 end
