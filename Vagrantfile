@@ -64,8 +64,12 @@ Vagrant.configure(2) do |config|
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
-  # config.vm.provision "shell", inline: <<-SHELL
-  #   sudo apt-get update
-  #   sudo apt-get install -y apache2
-  # SHELL
+  config.vm.provision "shell", inline: <<-SHELL
+    sudo apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+    echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" > /etc/apt/sources.list.d/docker.list
+    sudo apt-get update
+    sudo apt-cache policy docker-engine
+    sudo apt-get install -y docker-engine
+    sudo usermod -aG docker vagrant
+  SHELL
 end
